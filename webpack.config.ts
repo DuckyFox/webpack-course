@@ -1,9 +1,9 @@
-const path = require('path')
-const webpack = require('webpack')
-const htmlWebpackPlugin = require('html-webpack-plugin')
+import path from "node:path";
+import webpack from "webpack";
+import htmlWebpackPlugin from "html-webpack-plugin";
 
-module.exports = (env:any) => {
-    return {
+export default (env:any):webpack.Configuration  => {
+    const config:webpack.Configuration  = {
         mode: env.mode,
         entry: path.resolve(__dirname, 'src', 'index.ts'),
         plugins: [
@@ -30,5 +30,6 @@ module.exports = (env:any) => {
             filename: '[name].[contenthash].js',
             clean: true,
         }
-    }   
+    }
+    return config
 }
