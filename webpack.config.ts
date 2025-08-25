@@ -1,11 +1,30 @@
 import path from "node:path";
 import webpack from "webpack";
 import htmlWebpackPlugin from "html-webpack-plugin";
+import { type Configuration } from "webpack";
+import { type Configuration as DevServerConfiguration } from "webpack-dev-server";
 
-export default (env:any):webpack.Configuration  => {
-    const config:webpack.Configuration  = {
-        mode: env.mode,
+
+type Mode = "development" | "production";
+
+interface EnvVariables {
+    mode: Mode;
+    port: number;
+}
+
+export default (env:EnvVariables):Configuration => {
+
+    const isDev = env.mode === "development"
+
+    const config:Configuration  = {
+        mode: env.mode ?? "development",
         entry: path.resolve(__dirname, 'src', 'index.ts'),
+        devtool: isDev ? "inline-source-map" : undefined,
+        devServer: isDev ? {
+            static: './build',
+            port: env.port || 3000,
+            open: true,
+        } : undefined,
         plugins: [
             new htmlWebpackPlugin({
                 title: "Webpack Application",
@@ -29,7 +48,10 @@ export default (env:any):webpack.Configuration  => {
             path: path.resolve(__dirname, 'build'),
             filename: '[name].[contenthash].js',
             clean: true,
-        }
+        },
+        optimization: isDev ? {
+            runtimeChunk: 'single',
+        } : undefined,
     }
     return config
 }
