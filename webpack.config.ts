@@ -3,7 +3,7 @@ import webpack from "webpack";
 import htmlWebpackPlugin from "html-webpack-plugin";
 import { type Configuration } from "webpack";
 import { type Configuration as DevServerConfiguration } from "webpack-dev-server";
-
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 
 type Mode = "development" | "production";
 
@@ -31,6 +31,7 @@ export default (env:EnvVariables):Configuration => {
                 template: path.resolve(__dirname, 'public/index.html'),
             }),
             new webpack.ProgressPlugin(),
+            new MiniCssExtractPlugin()
         ],
         module: {
             rules: [
@@ -38,6 +39,10 @@ export default (env:EnvVariables):Configuration => {
                     test: /\.tsx?$/,
                     use: 'ts-loader',
                     exclude: /node_modules/,
+                },
+                {
+                    test: /\.s[ac]ss$/i,
+                    use: [MiniCssExtractPlugin.loader, "css-loader", "sass-loader"],
                 },
             ],
         },
