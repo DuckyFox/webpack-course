@@ -18,7 +18,7 @@ export default (env:EnvVariables):Configuration => {
 
     const config:Configuration  = {
         mode: env.mode ?? "development",
-        entry: path.resolve(__dirname, 'src', 'index.ts'),
+        entry: path.resolve(__dirname, 'src', 'index.tsx'),
         devtool: isDev ? "inline-source-map" : undefined,
         devServer: isDev ? {
             static: './build',
