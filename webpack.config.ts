@@ -31,7 +31,10 @@ export default (env:EnvVariables):Configuration => {
                 template: path.resolve(__dirname, 'public/index.html'),
             }),
             new webpack.ProgressPlugin(),
-            new MiniCssExtractPlugin()
+            new MiniCssExtractPlugin({
+                filename: 'css/[name].[contenthash:8].css',
+                chunkFilename: 'css/[name].[contenthash:8].css'
+            })
         ],
         module: {
             rules: [
