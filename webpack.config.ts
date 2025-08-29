@@ -1,29 +1,25 @@
-import { type Configuration } from "webpack";
-import { type Configuration as DevServerConfiguration } from "webpack-dev-server";
-import {buildWebpack} from "./config/build/buildWebpack";
-import {BuildOptions, BuildPath} from "./config/build/types/types";
-import {BuildMode} from "./config/build/types/types";
-import path from "node:path";
+import path from 'node:path';
+import webpack from 'webpack';
+import buildWebpackConfig from './config/build/buildWebpackConfig';
+import { BuildEnv, BuildPath } from './config/build/types/config';
 
-interface EnvVariables {
-    mode: BuildMode;
-    port: number;
-}
-
-export default (env:EnvVariables):Configuration => {
-
-    const paths:BuildPath = {
+export default (env: BuildEnv): webpack.Configuration => {
+    const paths: BuildPath = {
         entry: path.resolve(__dirname, 'src', 'index.tsx'),
-        output: path.resolve(__dirname, 'build'),
-        template: path.resolve(__dirname, 'public', 'index.html'),
-    }
+        build: path.resolve(__dirname, 'build'),
+        html: path.resolve(__dirname, 'public', 'index.html'),
+        static: path.resolve(__dirname, 'public'),
+        src: path.resolve(__dirname, 'src'),
+    };
 
-    const options:BuildOptions = {
-        mode: env.mode ?? 'development',
-        port: env.port ?? 3000,
+    const port = Number(env.mode) || 3000;
+    const mode = env.mode || 'development';
+    const isDev: boolean = mode === 'development';
+
+    return buildWebpackConfig({
+        mode: mode,
         paths: paths,
-        isDev: env.mode === 'development',
-    }
-
-    return buildWebpack(options)
-}
+        isDev: isDev,
+        port: port,
+    });
+};

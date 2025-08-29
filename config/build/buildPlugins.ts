@@ -1,26 +1,32 @@
-import webpack from "webpack";
-import htmlWebpackPlugin from "html-webpack-plugin";
-import path from "node:path";
-import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import {BuildOptions} from "./types/types";
+import HtmlWebpackPlugin from 'html-webpack-plugin';
+import webpack from 'webpack';
+import { BuildOptions, BuildPath } from './types/config';
+import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 
-export function buildPlugins(options:BuildOptions):webpack.WebpackPluginInstance[] {
-
-    const plugins:webpack.WebpackPluginInstance[] = [
-        new htmlWebpackPlugin({
-            title: "Webpack Application",
-            template: options.paths.template,
+export default function buildPlugins(paths: BuildPath, options: BuildOptions):webpack.WebpackPluginInstance[]{
+    const plugins = [
+        // плагин для работы с html
+        new HtmlWebpackPlugin({
+            title: 'Striker',
+            filename: '[name].html',
+            template: paths.html,
         }),
-    ]
+        // плагин для вывода в консоль прогресса сборки
+        new webpack.ProgressPlugin({}),
+        // плагин для сокращения html
+        new MiniCssExtractPlugin({
+            filename: 'css/[name].[contenthash:8].css',
+            chunkFilename: 'css/[name].[contenthash:8].css',
+        }),
+        // плагин для объявления глобальных переменных окружения
+        new webpack.DefinePlugin({
+            __IS_DEV__: JSON.stringify(options.isDev),
+        }),
+    ];
 
     if (options.isDev) {
-        plugins.push(new webpack.ProgressPlugin())
-    } else {
-        plugins.push( new MiniCssExtractPlugin({
-            filename: 'css/[name].[contenthash:8].css',
-            chunkFilename: 'css/[name].[contenthash:8].css'
-        }))
+        plugins.push(new webpack.HotModuleReplacementPlugin());
     }
 
-    return plugins
+    return plugins;
 }
