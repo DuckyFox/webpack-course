@@ -1,8 +1,8 @@
 import webpack from "webpack";
 import htmlWebpackPlugin from "html-webpack-plugin";
-import path from "node:path";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import {BuildOptions} from "./types/types";
+import {BundleAnalyzerPlugin} from "webpack-bundle-analyzer";
 
 export function buildPlugins(options:BuildOptions):webpack.WebpackPluginInstance[] {
 
@@ -20,6 +20,7 @@ export function buildPlugins(options:BuildOptions):webpack.WebpackPluginInstance
             filename: 'css/[name].[contenthash:8].css',
             chunkFilename: 'css/[name].[contenthash:8].css'
         }))
+        plugins.push(new BundleAnalyzerPlugin())
     }
 
     return plugins
