@@ -30,9 +30,5 @@ export function buildWebpack(options: BuildOptions): webpack.Configuration {
             filename: '[name].[contenthash].js',
             clean: true,
         },
-
-        optimization: isDev ? {
-            runtimeChunk: 'single',
-        } : undefined,
     }
 }
