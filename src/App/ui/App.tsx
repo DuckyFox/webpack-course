@@ -1,5 +1,6 @@
 import {useState} from 'react';
 import classes from './App.module.scss'
+import {Outlet} from "react-router-dom";
 
 const App = () => {
     const [count, setCount] = useState(0)
