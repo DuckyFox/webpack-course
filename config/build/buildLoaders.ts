@@ -1,13 +1,39 @@
 import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import {BuildOptions} from "./types/types";
+import ReactRefreshTypeScript from 'react-refresh-typescript';
+
 
 export function buildLoaders(options: BuildOptions):webpack.RuleSetRule[] {
 
+    const svgLoader = {
+        test: /\.svg$/,
+        use: [{
+                loader: '@svgr/webpack',
+                options: {
+                    icon: true,
+                },
+            }],
+    }
+
+    const assetLoader = {
+            test: /\.(png|jpg|jpeg|gif)$/i,
+            type: 'asset/resource',
+        }
+
     const tsLoader = {
-            test: /\.tsx?$/,
-            use: 'ts-loader',
             exclude: /node_modules/,
+            test: /\.tsx?$/,
+            use: [{
+                loader: 'ts-loader',
+                options: {
+                    getCustomTransformers: () => ({
+                        before: [options.isDev && ReactRefreshTypeScript()].filter(Boolean),
+                    }),
+                    transpileOnly: true,
+                }
+            }],
+
         }
 
     const scssLoader = {
@@ -34,6 +60,8 @@ export function buildLoaders(options: BuildOptions):webpack.RuleSetRule[] {
 
     return [
         tsLoader,
+        svgLoader,
+        assetLoader,
         scssLoader,
     ]
 }

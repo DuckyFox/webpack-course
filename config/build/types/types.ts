@@ -4,6 +4,9 @@ export interface BuildPath {
     entry: string;
     output: string;
     template: string;
+    src: string;
+    config: string,
+    public: string,
 }
 
 export interface BuildOptions {

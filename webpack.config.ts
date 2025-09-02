@@ -16,6 +16,9 @@ export default (env:EnvVariables):Configuration => {
         entry: path.resolve(__dirname, 'src', 'index.tsx'),
         output: path.resolve(__dirname, 'build'),
         template: path.resolve(__dirname, 'public', 'index.html'),
+        src: path.resolve(__dirname, 'src'),
+        config: path.resolve(__dirname, 'config'),
+        public: path.resolve(__dirname, 'public'),
     }
 
     const options:BuildOptions = {
@@ -24,6 +27,8 @@ export default (env:EnvVariables):Configuration => {
         paths: paths,
         isDev: env.mode === 'development',
     }
+
+    console.log(env.mode)
 
     return buildWebpack(options)
 }
