@@ -3,6 +3,7 @@ import classes from './App.module.scss'
 import {Link, Outlet} from "react-router-dom";
 import cat from '@shared/assets/cat.jpg'
 import Alien from '@shared/assets/alien-svgrepo-com.svg'
+import Button from "@shared/Button/ui/Button";
 
 const App = () => {
     const [count, setCount] = useState(0)
@@ -18,6 +19,7 @@ const App = () => {
             <button className={classes.button} onClick={()=>setCount(count+1)}>+</button>
             <button className={classes.button} onClick={()=>setCount(count-1)}>-</button>
             <Outlet/>
+            <Button variant={'secondary'} label={'test'}/>
         </div>
     );
 };

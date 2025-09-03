@@ -21,20 +21,15 @@ export function buildLoaders(options: BuildOptions):webpack.RuleSetRule[] {
             type: 'asset/resource',
         }
 
-    const tsLoader = {
-            exclude: /node_modules/,
-            test: /\.tsx?$/,
-            use: [{
-                loader: 'ts-loader',
-                options: {
-                    getCustomTransformers: () => ({
-                        before: [options.isDev && ReactRefreshTypeScript()].filter(Boolean),
-                    }),
-                    transpileOnly: true,
-                }
-            }],
 
+
+    const babelLoader = {
+        test: /\.[jt]sx?$/,
+        exclude: /node_modules/,
+        use: {
+            loader: 'babel-loader',
         }
+    }
 
     const scssLoader = {
         test: /\.s[ac]ss$/i,
@@ -59,7 +54,7 @@ export function buildLoaders(options: BuildOptions):webpack.RuleSetRule[] {
     };
 
     return [
-        tsLoader,
+        babelLoader,
         svgLoader,
         assetLoader,
         scssLoader,

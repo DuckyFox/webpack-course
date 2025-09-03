@@ -16,4 +16,25 @@ export interface BuildOptions {
     isDev: boolean;
 }
 
+interface User {
+    name: string;
+    email: string;
+    password: string;
+    isAdmin: boolean;
+}
+
+const Oleg:User = {
+    name: 'a',
+    email: 'a',
+    password: 'a',
+    isAdmin: true,
+}
+
+interface Box<T> {
+    value: T;
+}
+
+let testBox: Box<number> = {
+    value: 32,
+}
 
