@@ -37,7 +37,9 @@ export function buildPlugins(options:BuildOptions):webpack.WebpackPluginInstance
             filename: 'css/[name].[contenthash:8].css',
             chunkFilename: 'css/[name].[contenthash:8].css'
         }))
-        plugins.push(new BundleAnalyzerPlugin())
+        plugins.push(new BundleAnalyzerPlugin({
+            analyzerMode: 'static',
+        }))
     }
 
     return plugins

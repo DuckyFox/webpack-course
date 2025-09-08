@@ -1,8 +1,7 @@
 import webpack from 'webpack';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import {BuildOptions} from "./types/types";
-import ReactRefreshTypeScript from 'react-refresh-typescript';
-
+import buildBabelLoader from "./babel/buildBabelLoader";
 
 export function buildLoaders(options: BuildOptions):webpack.RuleSetRule[] {
 
@@ -20,16 +19,6 @@ export function buildLoaders(options: BuildOptions):webpack.RuleSetRule[] {
             test: /\.(png|jpg|jpeg|gif)$/i,
             type: 'asset/resource',
         }
-
-
-
-    const babelLoader = {
-        test: /\.[jt]sx?$/,
-        exclude: /node_modules/,
-        use: {
-            loader: 'babel-loader',
-        }
-    }
 
     const scssLoader = {
         test: /\.s[ac]ss$/i,
@@ -52,6 +41,8 @@ export function buildLoaders(options: BuildOptions):webpack.RuleSetRule[] {
             'sass-loader',
         ],
     };
+
+    const babelLoader = buildBabelLoader(options)
 
     return [
         babelLoader,
