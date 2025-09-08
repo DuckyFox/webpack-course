@@ -7,8 +7,6 @@ export function buildResolvers(options:BuildOptions):webpack.ResolveOptions {
         extensions: ['.tsx', '.ts', '.js'],
         alias: {
             "@": path.resolve(options.paths.src),
-            "@config": path.resolve(options.paths.config),
-            "@public": path.resolve(options.paths.public),
             "@app": path.resolve(options.paths.src, "app"),
             "@shared": path.resolve(options.paths.src, "shared"),
             "@entities": path.resolve(options.paths.src, "entities"),

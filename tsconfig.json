@@ -9,8 +9,6 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@config/*": ["./config/*"],
-      "@public/*": ["./public/*"],
       "@app/*": ["./src/app/*"],
       "@shared/*": ["./src/shared/*"],
       "@entities/*": ["./src/entities/*"],
